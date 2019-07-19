@@ -3,12 +3,9 @@
 
 const baseURL = 'https://api.github.com/users/';
 
-
-/**
- * Fetch user repos
- */
-const getRepos = function() {
-  fetch()
+const getRepos = function(handle) {
+  const url = baseURL + handle + '/repos';
+  fetch(url)
     .then(response => response.json())
     .then(jsonData => {
       extractData(jsonData);
@@ -16,41 +13,17 @@ const getRepos = function() {
     .catch(error => console.log(error));
 };
 
-/**
- * Extract data to be used on page
- * @param data - the JSON data
- */
-const extractData = function(data){
+const extractData = function(data) {
   data.forEach(repo => {
-    let {
-      name,
-      html_url,
-      created_at,
-      description
-    } = repo;
-    
-    let dateCreated = new Date(created_at);
-    $('.repos').append(createTemplate(name, html_url, dateCreated, description));
+    let { name, html_url } = repo;
+    $('.repos').append(createTemplate(name, html_url));
   });
 };
 
-/**
- * Create HTML template for each result
- * @param repo_name
- * @param url
- * @param created_at
- * @param decription
- */
-const createTemplate = function(repo_name, url, date, description) {
+const createTemplate = function(repo_name, url) {
   let template = `
   <section>
-    <h2><a href="${url}">${repo_name}</a></h2>
-    <ul>
-      <li>Description: ${description}</li>
-      <li>
-        Date created: ${date.getMonth()}/${date.getDate()}/${date.getFullYear()}
-      </li>
-    </ul>
+    <p><a href="${url}" target="_blank">${repo_name}</a></p>
   </section>
   `;
   return template;
@@ -59,13 +32,16 @@ const createTemplate = function(repo_name, url, date, description) {
 const handleUserSubmit = function() {
   $('form').submit(event => {
     event.preventDefault();
-    const handle = $(event.currentTarget).find('input').val();
-    formatHandle(handle);
+    $('.repos').empty();
+    const handle = $(event.currentTarget)
+      .find('input')
+      .val();
+    $('.repos').append(`<h2>Repos for User: <br>${handle}</h2>`);
+    getRepos(handle);
+    $(event.currentTarget)
+      .find('input')
+      .val('');
   });
 };
 
-const main = function() {
-  handleUserSubmit();
-};
-
-$(main);
+$(handleUserSubmit);

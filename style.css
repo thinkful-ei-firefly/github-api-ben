@@ -18,6 +18,16 @@ header, form {
   margin: 10px;
 }
 
+form {
+  margin-bottom: 50px;
+}
+
 section {
   border: 1px solid lemonchiffon;
+  margin: 20px;
+  padding: 20px;
+}
+
+ul {
+  list-style: none;
 }
