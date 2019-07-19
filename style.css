@@ -1,0 +1,23 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 600px;
+  margin: 0 auto;
+  text-align: center;
+  font-family: 'Ubuntu', sans-serif;
+  background-color: steelblue;
+  color: lemonchiffon;
+  font-size: 18px;
+}
+
+header, form {
+  margin: 10px;
+}
+
+section {
+  border: 1px solid lemonchiffon;
+}
